@@ -1,0 +1,57 @@
+:root {
+    /* colors */
+    --color-white: #fff;
+    --color-black: #000;
+
+    /* icons */
+    --font-size-arrow-down-icon: 60px;
+    --font-size-explanation-card-icon: 30px;
+
+
+    /* elements */
+    --font-size-header-title: 128px;
+    --font-size-header-subtitle: 48px;
+
+    --font-size-explanation-header-text: 40px;
+    --font-size-explanation-card-title: 16px;
+    --font-size-explanation-card-description: 16px;
+
+    --font-size-footer-text-title: 32px;
+    --font-size-footer-text-subtitle: 16px;
+
+    --font-size-footer-information-title: 32px;
+    --font-size-footer-information-text: 10px;
+
+    --font-size-information-button-icon: 20px;
+}
+
+/* Scrollbar styles for WebKit browsers (Chrome, Safari) */
+*::-webkit-scrollbar {
+    width: 8px; /* Reduced width of the scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+    background-color: #1e1e1e; /* Dark background for the track */
+    border-radius: 4px; /* Rounded corners for the track */
+}
+
+*::-webkit-scrollbar-track:hover {
+    background-color: #2c2c2c; /* Slightly lighter dark background on hover */
+}
+
+*::-webkit-scrollbar-track:active {
+    background-color: #3a3a3a; /* Even lighter dark background when active */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #333333; /* Dark grey thumb */
+    border-radius: 4px; /* Rounded corners for the thumb */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #4d4d4d; /* Lighter dark grey thumb on hover */
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #666666; /* Even lighter dark grey thumb when active */
+}
