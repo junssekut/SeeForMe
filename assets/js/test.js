@@ -67,19 +67,19 @@ function OpenCVReady(){
         }
 
         if(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
-            // document.querySelector("#enableWebcam").addEventListener("click", () => {
-            //     if (!streaming) {
-            //         enableCam()
-            //         streaming = true
-            //         recognition.start()
-            //     } else {
-            //         streaming = false
-            //         video.pause()
-            //         recognition.stop()
-            //         video.srcObject = null 
-            //     }
+            document.querySelector("#enablewebcam").addEventListener("click", () => {
+                if (!streaming) {
+                    enableCam()
+                    streaming = true
+                    recognition.start();
+                } else {
+                    streaming = false
+                    video.pause()
+                    recognition.stop();
+                    video.srcObject = null 
+                }
             
-            // })
+            })
         } else {
             console.log("getUserMedia is not supported")
         }
