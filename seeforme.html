@@ -13,25 +13,34 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
+
+    <script async src="./assets/js/opencv.js" onload="OpenCVReady()"></script>
 </head>
 <body>
-    <div class="display-background">
+    <!-- <video id="video" autoplay></video> -->
+    <!-- <canvas id="canvas"></canvas> -->
+    <canvas id="main-canvas"></canvas>
+        <!-- <video src="" autoplay id="webcam" width="640" height="480"></video> -->
+        <video src="" autoplay id="webcam" width="640" height="480" style="display: none;"></video>
 
-    </div>
-    
-    <div class="floating-top">
-        <span>See For Me</span>
-    </div>
-    <div class="floating-bottom">
+    <div class="container">
+        <div class="shadow-1"></div>
+        <div class="floating-top">
+            <div class="top-menu">
+                <!-- <p class="top-menu-text">See For Me</p> -->
+                 <img src="./assets/images/seeforme-logo.png" alt="" class="top-menu-logo">
+            </div>
+        </div>
 
+        <div class="floating-bottom"></div>
     </div>
 
-    <a href="./index.html" class="back-button"><i class="fa-solid fa-arrow-left-long"></i></a>
-
-    <div class="logo">
-        <img src="./assets/images/seeforme-logo.png" alt="">
-    </div>
-    
     <script src="./assets/js/index.js"></script>
+
+    <script src="./assets/js/pluralize.js"></script>
+    <script src="./assets/js/test.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 </body>
 </html>

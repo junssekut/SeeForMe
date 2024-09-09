@@ -2,29 +2,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollDownElement = document.getElementById('scroll-down');
     if (scrollDownElement) {
         scrollDownElement.addEventListener('click', function () {
-            if (scrollDownElement.style.rotate === '0deg')
+            console.log(scrollDownElement.style.rotate);
+            if (scrollDownElement.style.rotate === '') {
                 document.getElementById('content-1').scrollIntoView({ behavior: 'smooth' });
-            else 
+            } else {
                 document.getElementById('content-base').scrollIntoView({ behavior: 'smooth' });
+            }
         });
     }
 
-    if (window.innerWidth <= 768) { // Check if the screen width is mobile size or smaller
+    if (window.innerWidth <= 768) { 
         let touchStartX = 0;
         let touchEndX = 0;
 
         function handleGesture() {
             if (touchEndX < touchStartX - 50) {
-                // Swipe left
                 if (window.location.pathname.endsWith('index.html')) {
-                    window.location.href = 'seeforme.html'; // Redirect to seeforme.html on swipe left from index.html
+                    window.location.href = 'seeforme.html'; 
                 }
             }
 
             if (touchEndX > touchStartX + 50) {
-                // Swipe right
                 if (window.location.pathname.endsWith('seeforme.html')) {
-                    window.location.href = 'index.html'; // Redirect to index.html on swipe right from seeforme.html
+                    window.location.href = 'index.html'; 
                 }
             }
         }
@@ -42,14 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         const scrollTo = '130px';
         if ((window.innerHeight + window.scrollY + 10) >= document.documentElement.scrollHeight) {
-            document.getElementById('floating-button').style.bottom = scrollTo;
+            if (document.getElementById('floating-button')) document.getElementById('floating-button').style.bottom = scrollTo;
             if (this.document.getElementById('scroll-down')) document.getElementById('scroll-down').style.rotate = '-180deg';
         } else {
             if (document.getElementById('floating-button').style.bottom === scrollTo) {
                 document.getElementById('floating-button').style.bottom = '40px'
             }
 
-            if (this.document.getElementById('scroll-down')) this.document.getElementById('scroll-down').style.rotate = '0deg';
+            if (this.document.getElementById('scroll-down')) this.document.getElementById('scroll-down').style.rotate = '';
         }
     });
 
@@ -81,20 +81,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
-            // Check the current page URL
+            
             if (window.location.pathname.includes('index.html')) {
-                // If on index.html, redirect to seeforme.html
+                
                 window.location.href = 'seeforme.html';
             } else if (window.location.pathname.includes('seeforme.html')) {
-                // If on seeforme.html, redirect to index.html
+                
                 window.location.href = 'index.html';
             }
         }
     });
 
-    /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
-    particlesJS.load('particles-js', './assets/js/particlesjs-config.json', function() {
-        console.log('callback - particles.js config loaded');
-    });
+    if (window.location.pathname.includes('index.html')) {
+        particlesJS.load('particles-js', './assets/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    }
 });
 
