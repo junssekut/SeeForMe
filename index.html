@@ -15,21 +15,25 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
 </head>
 <body>
-    <a href="./seeforme.html" class="floating-button"><i class="fa-brands fa-unity floating-button-icon"></i></a>
+    <a href="./seeforme.html" class="floating-button" id="floating-button"><i class="fa-brands fa-unity floating-button-icon"></i></a>
 
     <div class="container">
         <div class="header">
+            <div class="header-img">
+                <img class="header-img-image mobile" src="./assets/images/seeforme-logo.png" alt="">
+            </div>
             <div class="header-text">
                 <h1 class="header-text-title">SEE FOR ME</h1>
                 <p class="header-text-subtitle">Visual Guidance, Real Independence</p>
             </div>
             <div class="header-img">
-                <img class="header-img-image" src="./assets/images/seeforme-logo.png" alt="">
+                <img class="header-img-image desktop" src="./assets/images/seeforme-logo.png" alt="">
             </div>
         </div>
-        <i class="fa-solid fa-angles-down arrow-down-icon"></i>
 
-        <div class="content-wrapper">
+        <i class="fa-solid fa-angles-down arrow-down-icon" id="scroll-down"></i>
+
+        <div class="content-wrapper" id="content-1">
             <div class="content-explanation">
                 <div class="explanation-header">
                     <h1 class="explanation-header-text">How It Works</h1>
@@ -68,11 +72,12 @@
             <div class="footer-information">
                 <h1 class="footer-information-title">Follow Us</h1>
                 <div class="footer-information-wrapper">
-                    <button class="information-button" id="youtube"><i class="fa-brands fa-youtube information-button-icon"></i></button>
-                    <button class="information-button" id="phone"><i class="fa-solid fa-phone information-button-icon"></i></button>
-                    <button class="information-button" id="instagram"><i class="fa-brands fa-instagram information-button-icon"></i></button>
-                    <button class="information-button" id="email"><i class="fa-solid fa-envelope information-button-icon"></i></button>
-                    <button class="information-button" id="x"><i class="fa-brands fa-square-x-twitter information-button-icon"></i></button>
+                    <!-- <a href="http://" target="_blank" rel="noopener noreferrer"></a> -->
+                    <button class="information-button" id="youtube"><a href="http://" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube information-button-icon"></i></a></button>
+                    <button class="information-button" id="phone"><a href="http://" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-phone information-button-icon"></i></a></button>
+                    <button class="information-button" id="instagram"><a href="http://" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram information-button-icon"></i></a></button>
+                    <button class="information-button" id="email"><a href="http://" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-envelope information-button-icon"></i></a></button>
+                    <button class="information-button" id="x"><a href="http://" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-square-x-twitter information-button-icon"></i></a></button>
                 </div>
                 <p class="footer-information-text">Copyright © 2024 See For Me. All Rights Reserved.</p>
             </div>
@@ -80,5 +85,6 @@
     </div>
 
     <script type="text/javascript" src="./assets/js/vanilla-tilt.js"></script>
+    <script src="./assets/js/index.js"></script>
 </body>
 </html>
