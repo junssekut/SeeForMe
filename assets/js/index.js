@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
             
-            if (window.location.pathname.includes('index.html')) {
+            if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
                 
                 window.location.href = 'seeforme.html';
             } else if (window.location.pathname.includes('seeforme.html')) {
@@ -92,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    if (window.location.pathname.includes('index.html')) {
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        console.log('test');
         particlesJS.load('particles-js', './assets/js/particlesjs-config.json', function() {
             console.log('callback - particles.js config loaded');
         });
