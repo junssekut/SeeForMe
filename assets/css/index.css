@@ -258,9 +258,19 @@ body {
         0 0 35px #ff00ff; /* Glowing effect with multiple layers */
 }
 
+.explanation-card-svg:hover .explanation-card-icon-svg {
+    filter: drop-shadow(0 0 2px #fff)
+        drop-shadow(0 0 4px #ff00ff)
+        drop-shadow(0 0 6px #ff00ff); /* Glowing effect */
+}
+
+
 .explanation-card-icon {
     color: var(--color-white);
     font-size: var(--font-size-explanation-card-icon);
+    
+    width: 35px;
+    height: 35px;
 
     margin: 15px 0 5px 0;
     /* border: 1px solid green; */
@@ -284,6 +294,8 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    margin-top: 30px;
 
     height: 150px;
     width: 100%;

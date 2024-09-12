@@ -98,9 +98,9 @@ function OpenCVReady(){
             cocoSsd.load().then((loadedModel) => {
                 model = loadedModel
                 console.log("Model Loaded")
-                // enableCam();
-                // streaming = true;
-                // recognition.start();
+                enableCam();
+                streaming = true;
+                recognition.start();
             })
         }, 0);
 
@@ -113,6 +113,10 @@ function OpenCVReady(){
                 src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4)
                 cap = new cv.VideoCapture(video)
                 cap.read(src)
+                
+                // Flip the image horizontally (mirror effect)
+                cv.flip(src, src, 1);
+
                 model.detect(video).then((predictions) => {
                     preds = {}
                     predictions.forEach((prediction) => {
