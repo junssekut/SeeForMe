@@ -113,9 +113,9 @@ function OpenCVReady(){
                 src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4)
                 cap = new cv.VideoCapture(video)
                 cap.read(src)
-                
+
                 // Flip the image horizontally (mirror effect)
-                cv.flip(src, src, 1);
+                // cv.flip(src, src, 1);
 
                 model.detect(video).then((predictions) => {
                     preds = {}
