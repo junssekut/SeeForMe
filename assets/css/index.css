@@ -255,7 +255,7 @@ body {
         0 0 20px #ff00ff, 
         0 0 25px #ff00ff, 
         0 0 30px #ff00ff, 
-        0 0 35px #ff00ff; /* Glowing effect with multiple layers */
+        0 0 35px #ff00ff;
 }
 
 .explanation-card-svg:hover .explanation-card-icon-svg {
