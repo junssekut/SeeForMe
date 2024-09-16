@@ -61,6 +61,25 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* background: linear-gradient(to bottom, rgba(36, 19, 50, 0.9), rgba(0, 0, 0, 0.1)); */
+    background-color: rgba(36, 19, 50, 0.6);
+}
+
+.floating-bottom {
+    bottom: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.floating-top {
+    top: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .top-menu {
