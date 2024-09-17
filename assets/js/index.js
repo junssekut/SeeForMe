@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
+    new Notify ({
+        status: 'info',
+        title: '',
+        text: 'Press SPACE to Start See For Me.',
+        effect: 'fade',
+        speed: 500,
+        customClass: '',
+        customIcon: '',
+        showIcon: true,
+        showCloseButton: false,
+        autoclose: true,
+        autotimeout: 3000,
+        notificationsGap: null,
+        notificationsPadding: null,
+        type: 'outline',
+        position: 'left top',
+        customWrapper: '',
+    });
+
     const scrollDownElement = document.getElementById('scroll-down');
     if (scrollDownElement) {
         scrollDownElement.addEventListener('click', function () {
