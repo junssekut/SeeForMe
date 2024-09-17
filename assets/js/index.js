@@ -112,8 +112,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
-        console.log('test');
         particlesJS.load('particles-js', './assets/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    }
+    if (window.location.pathname.includes('seeforme.html')) {
+        particlesJS.load('particles-js', './assets/js/particlesjs-config-bubble.json', function() {
             console.log('callback - particles.js config loaded');
         });
     }

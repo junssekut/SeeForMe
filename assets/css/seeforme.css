@@ -13,10 +13,6 @@ body {
 
     text-align: center;
     overflow-y: hidden;
-
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
 }
 
 a {
@@ -31,8 +27,6 @@ a {
 
     width: 100vw;
     height: 100vh;
-
-    /* border: 1px solid red; */
 }
 
 .shadow-1 {
@@ -65,12 +59,12 @@ canvas {
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
-@media only screen and (max-width: 430px) {
+/* @media only screen and (max-width: 430px) {
     canvas {
         height: auto;
         width: 100%;
     }
-}
+} */
 
 .floating-top, .floating-bottom {
     position: absolute;
