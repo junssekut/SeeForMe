@@ -34,21 +34,27 @@ function OpenCVReady(){
         let cap
         const fps = 24
 
-        const grammar = `#JSGF V1.0; grammar commands; public <command> = see for me`
+        // const grammar = `#JSGF V1.0; grammar commands; public <command> = see for me`
+        const validCommands = ['see for me', 'look for me', 'show me', 'see it for me'];
+        const fuse = new Fuse(validCommands, { includeScore: true, threshold: 0.4 });
+
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
         const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList
         const SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent
         const recognition = new SpeechRecognition()
         const recognitionList = new SpeechGrammarList()
-        recognitionList.addFromString(grammar, 1)
-        recognition.grammars = recognitionList
+        // recognitionList.addFromString(grammar, 1)
+        // recognition.grammars = recognitionList
         recognition.continuous = true
         recognition.lang = "en-US"
-        recognition.interimResults = false
-        recognition.maxAlternatives = 0
+        recognition.interimResults = true
+        recognition.maxAlternatives = 1
 
         recognition.onresult = (e) => {
-            if (e.results[0][0].transcript == "see for me") {
+            const transcript = e.results[0][0].transcript.trim().toLowerCase();
+            const result = fuse.search(transcript);
+
+            if (result.length > 0 && result[0].score < 0.4) {
                 const synth = window.speechSynthesis
                 for (const [key, value] of Object.entries(preds)){
                     const utter = new SpeechSynthesisUtterance(`${value} ${pluralize(key, value)}`)
@@ -60,10 +66,6 @@ function OpenCVReady(){
                     synth.speak(utter)
                 }
             }
-        }
-
-        recognition.onnomatch = (e) => {
-            console.log("not recognized")
         }
 
         if(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
@@ -98,9 +100,9 @@ function OpenCVReady(){
             cocoSsd.load().then((loadedModel) => {
                 model = loadedModel
                 console.log("Model Loaded")
-                enableCam();
-                streaming = true;
-                recognition.start();
+                // enableCam();
+                // streaming = true;
+                // recognition.start();
             })
         }, 0);
 
@@ -113,9 +115,6 @@ function OpenCVReady(){
                 src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4)
                 cap = new cv.VideoCapture(video)
                 cap.read(src)
-
-                // Flip the image horizontally (mirror effect)
-                // cv.flip(src, src, 1);
 
                 model.detect(video).then((predictions) => {
                     preds = {}
@@ -145,13 +144,6 @@ function OpenCVReady(){
                 window.requestAnimationFrame(predictWebcam)
             }
         }
-        
-        // setTimeout(() => {
-        //     enableCam();
-        //     streaming = true;
-        //     recognition.start();
-        //     console.log('test');
-        // }, 1000);
     }
 
 }
