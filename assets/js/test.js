@@ -100,9 +100,9 @@ function OpenCVReady(){
             cocoSsd.load().then((loadedModel) => {
                 model = loadedModel
                 console.log("Model Loaded")
-                // enableCam();
-                // streaming = true;
-                // recognition.start();
+                enableCam();
+                streaming = true;
+                recognition.start();
             })
         }, 0);
 
