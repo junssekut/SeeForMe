@@ -32,7 +32,7 @@ function OpenCVReady(){
         let streaming = false
         let src
         let cap
-        const fps = 24
+        const fps = 60
 
         // const grammar = `#JSGF V1.0; grammar commands; public <command> = see for me`
         const validCommands = ['see for me', 'look for me', 'show me', 'see it for me'];
@@ -47,7 +47,7 @@ function OpenCVReady(){
         // recognition.grammars = recognitionList
         recognition.continuous = true
         recognition.lang = "en-US"
-        recognition.interimResults = false
+        recognition.interimResults = true
         recognition.maxAlternatives = 1
 
         recognition.onresult = (e) => {
