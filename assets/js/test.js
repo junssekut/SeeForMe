@@ -47,7 +47,7 @@ function OpenCVReady(){
         // recognition.grammars = recognitionList
         recognition.continuous = true
         recognition.lang = "en-US"
-        recognition.interimResults = true
+        recognition.interimResults = false
         recognition.maxAlternatives = 1
 
         recognition.onresult = (e) => {
