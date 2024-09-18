@@ -25,7 +25,7 @@ function init() {
 
     if ($('#scroll-down')) {
         $('#scroll-down').click(function() {
-            if ($('#scroll-down').style.rotate === '') {
+            if ($('#scroll-down').css('rotate') === '') {
                 $('#content-1').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
@@ -84,6 +84,7 @@ function init() {
             default:
                 break;
         }
+        
         window.open(link, '_blank');
     });
 
