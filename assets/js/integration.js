@@ -14,25 +14,44 @@ function preload() {
 // 640 x 840
 
 function setup() {
-    let canvasSize = [windowWidth, windowHeight];
-    
-    video = createCapture({
+    // Create video capture with flexible facing mode
+    const constraints = {
         video: {
-            facingMode: { exact: "environment" } // Request the back camera
+            facingMode: {
+                exact: "environment" // Try to access the back camera
+            }
         }
-    });
-    video.size(canvasSize[0], canvasSize[1]);
-    video.show();
-    
-    // video.elt.onloadedmetadata = () => {
-    //     const videoWidth = video.width;
-    //     const videoHeight = video.height;
-    // };
-    
-    const canvas = createCanvas(canvasSize[0], canvasSize[1]);
-    canvas.parent("main-canvas-container");
-}
+    };
 
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+            video = createCapture(stream);
+            video.size(windowWidth, windowHeight);
+            video.hide();
+            createCanvas(windowWidth, windowHeight);
+        })
+        .catch((error) => {
+            console.error("Error accessing the back camera, trying front camera: ", error);
+            // Fallback to front camera
+            const fallbackConstraints = {
+                video: {
+                    facingMode: "user" // Access the front camera
+                }
+            };
+            return navigator.mediaDevices.getUserMedia(fallbackConstraints);
+        })
+        .then((stream) => {
+            if (stream) {
+                video = createCapture(stream);
+                video.size(windowWidth, windowHeight);
+                video.hide();
+                createCanvas(windowWidth, windowHeight).parent('main-canvas-container');
+            }
+        })
+        .catch((error) => {
+            console.error("Error accessing the camera: ", error);
+        });
+}
 function draw() {
     background(0);
 
