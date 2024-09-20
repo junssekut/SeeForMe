@@ -11,14 +11,22 @@ function preload() {
 }
 
 function setup() {
+    video = createCapture(VIDEO);
+    // video.size(canvasSize[0], canvasSize[1]);
+    video.hide();  // Hide the HTML video element since we'll display it on the canvas
+    
+    video.elt.onloadedmetadata = () => {
+        const videoWidth = video.width;
+        const videoHeight = video.height;
+        alert(`Webcam Resolution: ${videoWidth} x ${videoHeight}`);
+    };
+
+    let canvasSize = [video.width, video.height];
     // Create a canvas and attach it to the HTML container
-    const canvas = createCanvas(640, 480);
+    const canvas = createCanvas(canvasSize[0], canvasSize[1]);
     canvas.parent("main-canvas-container");
 
     // Create the video element
-    video = createCapture(VIDEO);
-    video.size(640, 480);
-    video.hide();  // Hide the HTML video element since we'll display it on the canvas
 }
 
 function draw() {
@@ -60,4 +68,10 @@ function drawBoundingBoxes(predictions) {
         textSize(12);
         text(`${className} ${confScore}`, x, y > 10 ? y - 5 : y + 15);
     });
+}
+
+function windowResized() {
+    // Resize the canvas and video when the window size changes
+    // resizeCanvas(windowWidth, windowHeight);
+    // video.size(windowWidth, windowHeight);
 }
