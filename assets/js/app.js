@@ -3,13 +3,12 @@ const IS_MAIN_PAGE = WINDOW_PATH.includes('index.html') || WINDOW_PATH === '' ||
 const IS_MOBILE = window.innerWidth <= 768;
 
 function init() {
-    console.log('test');
     new Notify ({
         status: 'info',
         title: '',
         text: `${IS_MAIN_PAGE ? 'Press SPACE' : 'Swipe Left'} to Start See For Me!`,
         effect: 'fade',
-        speed: 500,
+        speed: IS_MAIN_PAGE ? 500 : 3000,
         customClass: '',
         customIcon: '',
         showIcon: true,
@@ -99,8 +98,10 @@ function init() {
         else window.location.href = 'index.html';
     });
 
-    if (IS_MAIN_PAGE) particlesJS.load('particles-js', './assets/configs/particlesjs-config.json');
-    else particlesJS.load('particles-js', './assets/configs/particlesjs-config.json');
+    if (typeof particlesJS !== 'undefined') {
+        if (IS_MAIN_PAGE) particlesJS.load('particles-js', './assets/configs/particlesjs-config.json');
+        else particlesJS.load('particles-js', './assets/configs/particlesjs-config.json');
+    }
 }
 
 $(document).ready(() => init());
