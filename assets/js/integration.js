@@ -18,13 +18,13 @@ function setup() {
     video.elt.onloadedmetadata = () => {
         const videoWidth = video.width;
         const videoHeight = video.height;
-        alert(`Webcam Resolution: ${videoWidth} x ${videoHeight}`);
+        $('.menu-text').text(`${videoWidth} x ${videoHeight}`);
+        let canvasSize = [video.width, video.height];
+        // Create a canvas and attach it to the HTML container
+        const canvas = createCanvas(canvasSize[0], canvasSize[1]);
+        canvas.parent("main-canvas-container");
     };
 
-    let canvasSize = [video.width, video.height];
-    // Create a canvas and attach it to the HTML container
-    const canvas = createCanvas(canvasSize[0], canvasSize[1]);
-    canvas.parent("main-canvas-container");
 
     // Create the video element
 }
