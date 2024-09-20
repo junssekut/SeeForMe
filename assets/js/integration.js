@@ -87,6 +87,6 @@ function drawBoundingBoxes(predictions) {
 
 function windowResized() {
     // Resize the canvas and video when the window size changes
-    // resizeCanvas(windowWidth, windowHeight);
-    // video.size(windowWidth, windowHeight);
+    resizeCanvas(windowWidth, windowHeight);
+    video.size(windowWidth, windowHeight);
 }
