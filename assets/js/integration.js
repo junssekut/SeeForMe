@@ -16,7 +16,11 @@ function preload() {
 function setup() {
     let canvasSize = [windowWidth, windowHeight];
     
-    video = createCapture(VIDEO);
+    video = createCapture({
+        video: {
+            facingMode: { exact: "environment" } // Request the back camera
+        }
+    });
     video.size(canvasSize[0], canvasSize[1]);
     video.show();
     
