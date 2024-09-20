@@ -17,9 +17,13 @@
     <link rel="stylesheet" href="./assets/fontawesome/css/all.min.css">
 </head>
 <body>
-    <canvas id="main-canvas"></canvas>
-    <video src="" autoplay id="webcam" width="640" height="480" style="display: none;"></video>
+    <div id="main-canvas-container"></div>
+        <!-- p5.js will insert the canvas here -->
+    </div>
 
+    <!-- <video src="" autoplay id="webcam" width="640" height="480" style="display: none;"></video> -->
+    <!-- <video src="" autoplay id="webcam" width="auto" height="auto" style="display: none;"></video> -->
+    
     <div class="container">
         <div class="shadow-1"></div>
         <div class="floating-top">
@@ -38,7 +42,7 @@
         <div class="floating-bottom"></div>
     </div>
 
-    <script async src="./assets/libs/opencv.js" onload="OpenCVReady()"></script>
+    <script async src="./assets/libs/opencv.js"></script>
     
     <script src="./assets/libs/jquery-3.7.1.min.js"></script>
     <script src="./assets/libs/simple-notify.min.js"></script>
@@ -46,8 +50,10 @@
     <script src="./assets/libs/pluralize.js"></script>
     <script src="./assets/libs/tfjs.js"></script>
     <script src="./assets/libs/coco-ssd.js"></script>
+    <script src="./assets/libs/p5.js"></script>
     
     <script src="./assets/js/app.js"></script>
-    <script src="./assets/js/test.js"></script>
+    <script src="./assets/js/integration.js"></script>
+    <!-- <script src="./assets/js/test.js"></script> -->
 </body>
 </html>
