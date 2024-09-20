@@ -1,115 +1,152 @@
-let video;
-let model;
-let predictions = [];
-
-// Load the coco-ssd model when the page loads
-function preload() {
-    cocoSsd.load().then((loadedModel) => {
-        model = loadedModel;
-        console.log("Model loaded!");
+function drawBoundingBoxes(predictions, image) {
+    const imageWidth = image.cols; // Get the width of the image
+    predictions.forEach((prediction) => {
+        const bbox = prediction.bbox;
+        const x = imageWidth - bbox[0] - bbox[2]; // Adjust x for mirrored image
+        const y = bbox[1];
+        const width = bbox[2];
+        const height = bbox[3];
+        const className = prediction.class;
+        const confScore = prediction.score;
+        const color = [0, 255, 0, 200];
+        let pnt1 = new cv.Point(x, y);
+        let pnt2 = new cv.Point(x + width, y + height);
+        cv.rectangle(image, pnt1, pnt2, color, 2);
+        const text = `${className} - ${Math.round(confScore * 100) / 100}`;
+        const font = cv.FONT_HERSHEY_TRIPLEX;
+        const fontsize = 0.70;
+        const thickness = 1;
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext("2d");
+        const textMetrics = context.measureText(text);
+        const twidth = textMetrics.width;
+        cv.rectangle(image, new cv.Point(x, y - 20), new cv.Point(x + twidth + 150, y), color, -1);
+        cv.putText(image, text, new cv.Point(x, y - 5), font, fontsize, new cv.Scalar(255, 255, 255, 255), thickness);
     });
 }
 
-// 480 x 640
-// 640 x 840
+function OpenCVReady(){
+    cv["onRuntimeInitialized"] = () => {
+        const video = document.querySelector("#webcam")
+        let model = undefined
+        let streaming = false
+        let src
+        let cap
+        const fps = 24
 
-function setup() {
-    // Create video capture with flexible facing mode
-    const constraints = {
-        video: {
-            facingMode: {
-                exact: "environment" // Try to access the back camera
+        // const grammar = `#JSGF V1.0; grammar commands; public <command> = see for me`
+        const validCommands = ['see for me', 'look for me', 'show me', 'see it for me'];
+        const fuse = new Fuse(validCommands, { includeScore: true, threshold: 1.0 });
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+        const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList
+        const SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent
+        const recognition = new SpeechRecognition()
+        const recognitionList = new SpeechGrammarList()
+        // recognitionList.addFromString(grammar, 1)
+        // recognition.grammars = recognitionList
+        recognition.continuous = true
+        recognition.lang = "en-US"
+        recognition.interimResults = true
+        recognition.maxAlternatives = 1
+
+        recognition.onresult = (e) => {
+            const transcript = e.results[0][0].transcript.trim().toLowerCase();
+            const result = fuse.search(transcript);
+
+            if (result.length > 0 && result[0].score < 0.4) {
+                const synth = window.speechSynthesis
+                for (const [key, value] of Object.entries(preds)){
+                    const utter = new SpeechSynthesisUtterance(`${value} ${pluralize(key, value)}`)
+                    utter.voice = synth.getVoices()[0]
+                    utter.pitch = 1
+                    utter.rate = 1
+                    utter.volume = 1
+                    utter.lang = 'en-US'
+                    synth.speak(utter)
+                }
             }
         }
-    };
 
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-            video = createCapture(stream);
-            video.size(windowWidth, windowHeight);
-            video.hide();
-            createCanvas(windowWidth, windowHeight);
-        })
-        .catch((error) => {
-            console.error("Error accessing the back camera, trying front camera: ", error);
-            // Fallback to front camera
-            const fallbackConstraints = {
-                video: {
-                    facingMode: "user" // Access the front camera
+        if(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+            document.querySelector("#enablewebcam").addEventListener("click", () => {
+                if (!streaming) {
+                    enableCam()
+                    streaming = true
+                    recognition.start();
+                } else {
+                    streaming = false
+                    video.pause()
+                    recognition.stop();
+                    video.srcObject = null 
                 }
-            };
-            return navigator.mediaDevices.getUserMedia(fallbackConstraints);
-        })
-        .then((stream) => {
-            if (stream) {
-                video = createCapture(stream);
-                video.size(windowWidth, windowHeight);
-                video.hide();
-                createCanvas(windowWidth, windowHeight).parent('main-canvas-container');
+            
+            })
+        } else {
+            console.log("getUserMedia is not supported")
+        }
+        
+        function enableCam() {
+            if (!model) {
+                return
             }
-        })
-        .catch((error) => {
-            console.error("Error accessing the camera: ", error);
-        });
-}
-function draw() {
-    background(0);
+            navigator.mediaDevices.getUserMedia({'video' : true, 'audio' : false}).then((stream) => {
+                video.srcObject = stream
+                video.addEventListener('loadeddata', predictWebcam)
+            })
+        }
 
-    // Draw the video onto the canvas, maintaining aspect ratio
-    let aspect = video.width / video.height;
-    let newWidth = width;
-    let newHeight = width / aspect;
+        setTimeout(() => {
+            cocoSsd.load().then((loadedModel) => {
+                model = loadedModel
+                console.log("Model Loaded")
+                enableCam();
+                streaming = true;
+                recognition.start();
+            })
+        }, 0);
 
-    // If the new height exceeds the canvas height, adjust width and height accordingly
-    if (newHeight > height) {
-        newHeight = height;
-        newWidth = height * aspect;
+        let preds = {}
+
+        function predictWebcam() {
+            if (video.videoWidth > 0 && video.videoHeight > 0) {
+                
+                const begin = Date.now()
+                src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4)
+                
+                cap = new cv.VideoCapture(video)
+                cap.read(src)
+
+                cv.flip(src, src, 1); // The last argument '1' specifies horizontal flipping
+
+                model.detect(video).then((predictions) => {
+                    preds = {}
+                    predictions.forEach((prediction) => {
+                        if (!(prediction['class'] in preds)) {
+                            preds[prediction['class']] = 1
+                        } else {
+                            preds[prediction['class']] += 1
+                        }
+                    })
+                    console.log("predictions ", preds)
+                    if (predictions.length > 0) {
+                        drawBoundingBoxes(predictions, src)
+                        cv.imshow("main-canvas", src)
+                        const delay = 1000/fps - (Date.now() - begin)
+                        setTimeout(predictWebcam, delay)
+                        src.delete()
+                    } else {
+                        cv.imshow("main-canvas", src)
+                        const delay = 1000/fps - (Date.now() - begin)
+                        setTimeout(predictWebcam, delay)
+                        src.delete()
+                    }
+                    
+                })
+            } else {
+                window.requestAnimationFrame(predictWebcam)
+            }
+        }
     }
 
-    // Center the video on the canvas
-    let x = (width - newWidth) / 2;
-    let y = (height - newHeight) / 2;
-
-    // Draw the video
-    image(video, x, y, newWidth, newHeight);
-
-    // Draw the bounding boxes
-    if (predictions.length > 0) {
-        drawBoundingBoxes(predictions);
-    }
-
-    // Check if the model is loaded and the video has valid dimensions
-    if (model && video.width > 0 && video.height > 0) {
-        model.detect(video.elt).then((results) => {
-            predictions = results;
-        }).catch((error) => {
-            console.error("Error during detection: ", error);
-        });
-    }
-}
-
-function drawBoundingBoxes(predictions) {
-    predictions.forEach((prediction) => {
-        // Extract prediction data
-        const [x, y, width, height] = prediction.bbox;
-        const className = prediction.class;
-        const confScore = prediction.score.toFixed(2);
-
-        // Draw the bounding box
-        noFill();
-        stroke(0, 255, 0); // Green color for bounding box
-        strokeWeight(2);
-        rect(x, y, width, height);
-
-        // Draw the label and confidence score
-        fill(0, 255, 0);
-        textSize(12);
-        text(`${className} ${confScore}`, x, y > 10 ? y - 5 : y + 15);
-    });
-}
-
-function windowResized() {
-    // Resize the canvas and video when the window size changes
-    resizeCanvas(windowWidth, windowHeight);
-    video.size(windowWidth, windowHeight);
 }

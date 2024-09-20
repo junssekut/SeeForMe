@@ -54,12 +54,12 @@ a {
 }
 
 canvas {
-    /* position: absolute;
+    position: absolute;
 
-    /* height: 600px;
-    width: 800px; */
+    height: 600px;
+    width: 800px;
 
-    /* border-radius: 36px;
+    border-radius: 36px;
 
     top: 45%;
     left: 50%;
@@ -70,7 +70,7 @@ canvas {
     backdrop-filter: blur( 12.5px );
     -webkit-backdrop-filter: blur( 12.5px );
     border-radius: 30px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 /* @media only screen and (max-width: 430px) {
