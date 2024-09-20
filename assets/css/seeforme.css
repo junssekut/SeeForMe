@@ -54,23 +54,26 @@ a {
 }
 
 canvas {
-    position: absolute;
+    /* position: absolute;
+
+    top: auto;
+    left: auto; */
 
     /* height: 600px;
     width: 800px; */
 
-    border-radius: 36px;
+    /* border-radius: 36px;
 
-    /* top: 45%; */
-    /* left: 50%; */
-    /* transform: translate(-50%, -45%); */
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -45%);
 
     background: rgba( 255, 255, 255, 0.18 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 12.5px );
     -webkit-backdrop-filter: blur( 12.5px );
     border-radius: 30px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba( 255, 255, 255, 0.18 ); */
 }
 
 /* @media only screen and (max-width: 430px) {

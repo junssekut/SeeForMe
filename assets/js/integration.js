@@ -10,30 +10,45 @@ function preload() {
     });
 }
 
+// 480 x 640
+// 640 x 840
+
 function setup() {
-    video = createCapture(VIDEO);
-    // video.size(canvasSize[0], canvasSize[1]);
-    video.hide();  // Hide the HTML video element since we'll display it on the canvas
+    let canvasSize = [windowWidth, windowHeight];
     
-    video.elt.onloadedmetadata = () => {
-        const videoWidth = video.width;
-        const videoHeight = video.height;
-        $('.menu-text').text(`${videoWidth} x ${videoHeight}`);
-        let canvasSize = [video.width, video.height];
-        // Create a canvas and attach it to the HTML container
-        const canvas = createCanvas(canvasSize[0], canvasSize[1]);
-        canvas.parent("main-canvas-container");
-    };
-
-
-    // Create the video element
+    video = createCapture(VIDEO);
+    video.size(canvasSize[0], canvasSize[1]);
+    video.show();
+    
+    // video.elt.onloadedmetadata = () => {
+    //     const videoWidth = video.width;
+    //     const videoHeight = video.height;
+    // };
+    
+    const canvas = createCanvas(canvasSize[0], canvasSize[1]);
+    canvas.parent("main-canvas-container");
 }
 
 function draw() {
     background(0);
 
-    // Draw the video on the canvas
-    image(video, 0, 0);
+    // Draw the video onto the canvas, maintaining aspect ratio
+    let aspect = video.width / video.height;
+    let newWidth = width;
+    let newHeight = width / aspect;
+
+    // If the new height exceeds the canvas height, adjust width and height accordingly
+    if (newHeight > height) {
+        newHeight = height;
+        newWidth = height * aspect;
+    }
+
+    // Center the video on the canvas
+    let x = (width - newWidth) / 2;
+    let y = (height - newHeight) / 2;
+
+    // Draw the video
+    image(video, x, y, newWidth, newHeight);
 
     // Draw the bounding boxes
     if (predictions.length > 0) {
