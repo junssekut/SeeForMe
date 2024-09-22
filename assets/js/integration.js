@@ -101,6 +101,9 @@ function setupSpeechRecognition() {
         if (result.length > 0 && result[0].score < 0.4 && !commandDetected) {
             commandDetected = true; // Set the flag to prevent multiple detections
             const synth = window.speechSynthesis;
+            
+            const voices = synth.getVoices();
+            console.log(voices);
 
             for (const [key, value] of Object.entries(preds)) {
                 const utter = new SpeechSynthesisUtterance(`${value} ${pluralize(key, value)}`);
