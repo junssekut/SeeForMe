@@ -8,7 +8,7 @@ let commandDetected = false; // Flag to prevent multiple detections
 let preds = {}; // Object to store detected object counts
 
 function setup() {
-    createCanvas(800, 600);
+    createCanvas(windowWidth, windowHeight);
     var constraints = {
         audio: false,
         // video: {
@@ -23,7 +23,7 @@ function setup() {
       }
     video = createCapture(constraints);
     // video = createCapture(VIDEO);
-    video.size(800, 600);
+    video.size(windowWidth, windowHeight);
     video.hide(); // Hide the original video element
     loadModelCoco();
     setupSpeechRecognition(); // Initialize speech recognition
@@ -130,7 +130,6 @@ function draw() {
         );
     });
 }
-
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
