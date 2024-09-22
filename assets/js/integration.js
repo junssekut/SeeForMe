@@ -28,6 +28,10 @@ function drawBoundingBoxes(predictions, image) {
 function OpenCVReady(){
     cv["onRuntimeInitialized"] = () => {
         const video = document.querySelector("#webcam")
+        
+        video.width = '640';
+        video.height = '480';
+
         let model = undefined
         let streaming = false
         let src
@@ -86,15 +90,42 @@ function OpenCVReady(){
             console.log("getUserMedia is not supported")
         }
         
+        // function enableCam() {
+        //     if (!model) {
+        //         return
+        //     }
+        //     navigator.mediaDevices.getUserMedia({'video' : true, 'audio' : false}).then((stream) => {
+        //         video.srcObject = stream
+        //         video.addEventListener('loadeddata', predictWebcam)
+        //     })
+        // }
+
         function enableCam() {
             if (!model) {
-                return
+                return;
             }
-            navigator.mediaDevices.getUserMedia({'video' : true, 'audio' : false}).then((stream) => {
-                video.srcObject = stream
-                video.addEventListener('loadeddata', predictWebcam)
+        
+            // Use 'facingMode: "environment"' as an ideal, not exact, to avoid overconstrained errors
+            const constraints = {
+                video: {
+                    facingMode: { ideal: "environment" }, // Prefer back camera, but not required
+                    width: { ideal: 640 },  // Ideal video width
+                    height: { ideal: 480 }  // Ideal video height
+                },
+                audio: false
+            };
+        
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                video.srcObject = stream;
+                video.addEventListener('loadeddata', predictWebcam);
             })
+            .catch((error) => {
+                console.error("Error accessing the camera: ", error.name, error.message);
+            });
         }
+        
+        
 
         setTimeout(() => {
             cocoSsd.load().then((loadedModel) => {
