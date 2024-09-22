@@ -9,7 +9,19 @@ let preds = {}; // Object to store detected object counts
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    video = createCapture(VIDEO);
+    var constraints = {
+        audio: false,
+        video: {
+          facingMode: {
+            exact: "environment"
+          }
+        }    
+        // video: {
+        //   facingMode: "user"
+        // } 
+      };
+    video = createCapture(constraints);
+    // video = createCapture(VIDEO);
     video.size(width, height);
     video.hide(); // Hide the original video element
     loadModelCoco();
