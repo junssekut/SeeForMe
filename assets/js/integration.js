@@ -7,25 +7,89 @@ let recognition;
 let commandDetected = false; // Flag to prevent multiple detections
 let preds = {}; // Object to store detected object counts
 
+// function setup() {
+//     createCanvas(windowWidth, windowHeight);
+//     var constraints = {
+//         audio: false,
+//         video: {
+//           facingMode: {
+//             exact: "environment"
+//           }
+//         }    
+//         // video: {
+//         //   facingMode: "user"
+//         // } 
+//       };
+//     video = createCapture(constraints);
+//     // video = createCapture(VIDEO);
+//     video.size(width, height);
+//     video.hide(); // Hide the original video element
+//     loadModelCoco();
+//     setupSpeechRecognition(); // Initialize speech recognition
+// }
+
+var capture;
+let switchFlag = false;
+let switchBtn;
+
+var options = {
+     video: {
+        
+         facingMode: {
+          exact: "user"
+        }
+     }
+   };
+
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    var constraints = {
-        audio: false,
-        video: {
-          facingMode: {
-            exact: "environment"
-          }
-        }    
-        // video: {
-        //   facingMode: "user"
-        // } 
-      };
-    video = createCapture(constraints);
-    // video = createCapture(VIDEO);
-    video.size(width, height);
-    video.hide(); // Hide the original video element
-    loadModelCoco();
-    setupSpeechRecognition(); // Initialize speech recognition
+  createCanvas(windowWidth, windowHeight);
+  
+  video = createCapture(options);
+  
+  switchBtn = createButton('Switch Camera');
+  switchBtn.position(19, 19);
+  switchBtn.mousePressed(switchCamera);
+}
+
+function switchCamera()
+{
+  switchFlag = !switchFlag;
+  stopCapture();
+  if(switchFlag==true)
+  {
+   capture.remove();
+   options = {
+     video: {
+         facingMode: {
+          exact: "environment"
+        }
+     }
+   };
+
+  }
+  else
+  {
+   video.remove();
+   options = {
+     video: {
+         facingMode: {
+          exact: "user"
+        }
+     }
+   };
+  }
+  video = createCapture(options);
+}
+
+function stopCapture() {
+  let stream = capture.elt.srcObject;
+  let tracks = stream.getTracks();
+
+  tracks.forEach(function(track) {
+    track.stop();
+  });
+
+  capture.elt.srcObject = null;
 }
 
 function loadModelCoco() {
