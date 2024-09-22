@@ -2,13 +2,32 @@ const WINDOW_PATH = window.location.pathname;
 const IS_MAIN_PAGE = WINDOW_PATH.includes('index.html') || WINDOW_PATH === '' || WINDOW_PATH === '/';
 const IS_MOBILE = window.innerWidth <= 768;
 
-function init() {
+function speakText(text) {
+    let utterance = new SpeechSynthesisUtterance(text);
+  
+    utterance.lang = 'en-US';
+    utterance.volume = 1;
+    utterance.rate = 1;
+    utterance.pitch = 1;
+  
+    window.speechSynthesis.speak(utterance);
+}
+
+function vibrateDevice() {
+    if (navigator.vibrate) {
+        navigator.vibrate(500);
+    } else {
+        console.log('Vibration API not supported on this device.');
+    }
+  }
+    
+function sendNotification(message) {
     new Notify ({
         status: 'info',
         title: '',
-        text: `${IS_MAIN_PAGE ? 'Press SPACE' : 'Swipe Left'} to Start See For Me!`,
+        text: message,
         effect: 'fade',
-        speed: IS_MAIN_PAGE ? 500 : 3000,
+        speed: 3000,
         customClass: '',
         customIcon: '',
         showIcon: true,
@@ -21,6 +40,30 @@ function init() {
         position: 'left top',
         customWrapper: '',
     });
+}
+
+function init() {
+    if (IS_MAIN_PAGE) {
+        sendNotification(`
+            ${IS_MOBILE ? `Swipe left` :
+                `Press space`
+            }  and say 'See For Me' to make me describe things around you!
+        `);
+
+        speakText(`
+            ${IS_MOBILE ? `Welcome to See for Me! Swipe left or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you.` :
+                `Welcome to See for Me! Press the space key or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you.`
+            }    
+        `)
+    } else {
+        sendNotification(`
+            Voice activate with 'See For Me'!
+        `);
+    }
+
+// Mobile: "Welcome to See for Me! Swipe left or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you."
+
+// Web: "Welcome to See for Me! Press the space key or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you."
 
     if ($('#scroll-down')) {
         $('#scroll-down').click(function() {
@@ -50,6 +93,8 @@ function init() {
 
             if (touchEndX < touchStartX - 50 && IS_MAIN_PAGE) window.location.href = 'seeforme.html'; 
             if (touchEndX > touchStartX + 50 && !IS_MAIN_PAGE) window.location.href = 'index.html';
+            
+            vibrateDevice();
         });
     }
 

@@ -11,23 +11,9 @@ body {
     background-color: black;
     background-size: 100%;
 
-    text-align: center;
-    overflow-y: hidden;
+    /* text-align: center; */
+    /* overflow-y: hidden; */
 }
-
-/* video { */
-    /* display: none; */
-    /* width: 800px; */
-    /* height: 600px; */
-    /* max-width: 100vh; */
-    /* max-height: 100vh; */
-/* } */
-
-/* @media (max-width: 768px) {
-    video {
-        margin: 0 auto;
-    }
-} */
 
 a {
     text-decoration: none;
