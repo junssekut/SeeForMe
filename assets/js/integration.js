@@ -8,7 +8,7 @@ let commandDetected = false; // Flag to prevent multiple detections
 let preds = {}; // Object to store detected object counts
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(800, 600);
     var constraints = {
         audio: false,
         // video: {
@@ -23,7 +23,7 @@ function setup() {
       }
     video = createCapture(constraints);
     // video = createCapture(VIDEO);
-    video.size(width, height);
+    video.size(800, 600);
     video.hide(); // Hide the original video element
     loadModelCoco();
     setupSpeechRecognition(); // Initialize speech recognition
