@@ -3,14 +3,16 @@ const IS_MAIN_PAGE = WINDOW_PATH.includes('index.html') || WINDOW_PATH === '' ||
 const IS_MOBILE = window.innerWidth <= 768;
 
 function speakText(text) {
-    let utterance = new SpeechSynthesisUtterance(text);
+    // let utterance = new SpeechSynthesisUtterance(text);
   
-    utterance.lang = 'en-US';
-    utterance.volume = 1;
-    utterance.rate = 1;
-    utterance.pitch = 1;
+    // utterance.lang = 'en-US';
+    // utterance.volume = 1;
+    // utterance.rate = 1;
+    // utterance.pitch = 1;
   
-    window.speechSynthesis.speak(utterance);
+    // window.speechSynthesis.speak(utterance);
+    
+    responsiveVoice.speak(text);
 }
 
 function vibrateDevice() {
