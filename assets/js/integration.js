@@ -122,7 +122,7 @@ function setupSpeechRecognition() {
                 responsiveVoice.speak(message, null, {
                     onend: () => {
                         commandDetected = false; // Reset the flag after speaking
-                        recognition.start(); // Restart recognition after speaking
+                        // recognition.start();
                     }
                 });
             }
