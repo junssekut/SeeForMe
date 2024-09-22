@@ -63,12 +63,14 @@ canvas {
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
-/* @media only screen and (max-width: 430px) {
+
+
+@media only screen and (max-width: 768px) {
     canvas {
-        height: auto;
+        height: 100%;
         width: 100%;
     }
-} */
+}
 
 .floating-top, .floating-bottom {
     position: absolute;

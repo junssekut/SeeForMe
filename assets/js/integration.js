@@ -29,8 +29,13 @@ function OpenCVReady(){
     cv["onRuntimeInitialized"] = () => {
         const video = document.querySelector("#webcam")
         
-        video.width = '640';
-        video.height = '480';
+        if (IS_MOBILE) {
+            video.width = window.innerWidth;
+            video.height = window.innerHeight;
+        } else {
+            video.width = '640';
+            video.height = '480';
+        }
 
         let model = undefined
         let streaming = false
@@ -105,12 +110,11 @@ function OpenCVReady(){
                 return;
             }
         
-            // Use 'facingMode: "environment"' as an ideal, not exact, to avoid overconstrained errors
             const constraints = {
                 video: {
-                    facingMode: { ideal: "environment" }, // Prefer back camera, but not required
-                    width: { ideal: 640 },  // Ideal video width
-                    height: { ideal: 480 }  // Ideal video height
+                    facingMode: { ideal: "environment" },
+                    // width: { ideal: 640 },
+                    // height: { ideal: 480 }
                 },
                 audio: false
             };
