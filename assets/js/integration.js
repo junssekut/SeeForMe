@@ -100,25 +100,31 @@ function setupSpeechRecognition() {
 
         if (result.length > 0 && result[0].score < 0.4 && !commandDetected) {
             commandDetected = true; // Set the flag to prevent multiple detections
-            const synth = window.speechSynthesis;
-            
-            const voices = synth.getVoices();
-            console.log(voices);
+            // const synth = window.speechSynthesis;
 
             for (const [key, value] of Object.entries(preds)) {
-                const utter = new SpeechSynthesisUtterance(`${value} ${pluralize(key, value)}`);
-                utter.voice = synth.getVoices()[0];
-                utter.pitch = 1;
-                utter.rate = 1;
-                utter.volume = 1;
-                utter.lang = 'en-US';
+                // const utter = new SpeechSynthesisUtterance(`${value} ${pluralize(key, value)}`);
+                // utter.voice = synth.getVoices()[0];
+                // utter.pitch = 1;
+                // utter.rate = 1;
+                // utter.volume = 1;
+                // utter.lang = 'en-US';
 
                 // Reset commandDetected when utterance ends
-                utter.onend = () => {
-                    commandDetected = false; // Reset the flag after speaking
-                };
+                // utter.onend = () => {
+                //     commandDetected = false; // Reset the flag after speaking
+                // };
 
-                synth.speak(utter);
+                // synth.speak(utter);
+                
+                // responsiveVoice.speak(text);
+                const message = `${value} ${pluralize(key, value)}`;
+                responsiveVoice.speak(message, null, {
+                    onend: () => {
+                        commandDetected = false; // Reset the flag after speaking
+                        recognition.start(); // Restart recognition after speaking
+                    }
+                });
             }
         }
     };
