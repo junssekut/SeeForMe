@@ -64,8 +64,49 @@ function detect() {
     }
 }
 
+// function draw() {
+//     image(video, 0, 0, width, height); // Draw the video
+
+//     // Draw bounding boxes and labels
+//     detections.forEach(detection => {
+//         const { bbox, class: className, score } = detection;
+//         stroke(0, 255, 0);
+//         strokeWeight(2);
+//         noFill();
+//         rect(bbox[0], bbox[1], bbox[2], bbox[3]); // Draw rectangle
+
+//         // Draw label
+//         fill(255);
+//         textSize(24);
+//         text(`${className} (${(score * 100).toFixed(2)}%)`, bbox[0], bbox[1] > 10 ? bbox[1] - 5 : 10);
+//     });
+// }
+
 function draw() {
-    image(video, 0, 0, width, height); // Draw the video
+    background(0); // Clear the background
+
+    // Calculate the aspect ratio
+    let videoAspect = video.width / video.height;
+    let canvasAspect = width / height;
+
+    let displayWidth, displayHeight, xOffset, yOffset;
+
+    if (videoAspect > canvasAspect) {
+        // Video is wider than the canvas, scale based on width
+        displayWidth = width;
+        displayHeight = width / videoAspect;
+        xOffset = 0;
+        yOffset = (height - displayHeight) / 2; // Center vertically
+    } else {
+        // Video is taller than the canvas, scale based on height
+        displayHeight = height;
+        displayWidth = height * videoAspect;
+        xOffset = (width - displayWidth) / 2; // Center horizontally
+        yOffset = 0;
+    }
+
+    // Draw the video with the calculated dimensions
+    image(video, xOffset, yOffset, displayWidth, displayHeight);
 
     // Draw bounding boxes and labels
     detections.forEach(detection => {
@@ -73,14 +114,23 @@ function draw() {
         stroke(0, 255, 0);
         strokeWeight(2);
         noFill();
-        rect(bbox[0], bbox[1], bbox[2], bbox[3]); // Draw rectangle
+        rect(
+            bbox[0] * (displayWidth / video.width) + xOffset, 
+            bbox[1] * (displayHeight / video.height) + yOffset, 
+            bbox[2] * (displayWidth / video.width), 
+            bbox[3] * (displayHeight / video.height)
+        ); // Draw rectangle with scaled dimensions
 
         // Draw label
         fill(255);
         textSize(24);
-        text(`${className} (${(score * 100).toFixed(2)}%)`, bbox[0], bbox[1] > 10 ? bbox[1] - 5 : 10);
+        text(`${className} (${(score * 100).toFixed(2)}%)`, 
+            bbox[0] * (displayWidth / video.width) + xOffset, 
+            bbox[1] * (displayHeight / video.height) > 10 ? bbox[1] * (displayHeight / video.height) - 5 + yOffset : 10 + yOffset
+        );
     });
 }
+
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
