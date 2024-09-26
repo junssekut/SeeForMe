@@ -73,6 +73,8 @@ function draw() {
     background(0); // Clear the background
     image(video, 0, 0, width, height); // Draw the video
 
+    text(`{w: ${video.width}, h: ${video.height}}`, 100, 100);
+
     // Calculate the scaling factor based on the original video size
     const scaleX = width / captureWidth;  // Horizontal scaling factor
     const scaleY = height / captureHeight; // Vertical scaling factor
