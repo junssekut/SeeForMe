@@ -30,7 +30,7 @@ function initVideoCapture() {
     };
 
     video = createCapture(constraints);
-    video.size(captureWidth, captureHeight);
+    // video.size(captureWidth, captureHeight);
     video.hide();
 }
 
@@ -41,6 +41,7 @@ function loadCocoModel() {
 
         video.elt.addEventListener('loadeddata', () => {
             console.log("Video is ready. Starting detection...");
+            $('.menu-text').html(`w: ${video.width} h: ${video.height}`);
             detect();
         });
     });
@@ -142,5 +143,5 @@ function speakDetectedCommands() {
 function windowResized() {
     // Optional: Handle window resizing if needed
     // Update canvas size if needed based on new dimensions
-    resizeCanvas(window.innerWidth <= 768 ? 390 : 640, window.innerWidth <= 768 ? 640 : 480);
+    resizeCanvas(window.innerWidth <= 768 ? 390 : 640, window.innerWidth <= 768 ? 540 : 480);
 }
