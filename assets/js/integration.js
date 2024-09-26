@@ -14,7 +14,7 @@ let preds = {};
 
 function setup() {
     // createCanvas(captureWidth, captureHeight);
-    createCanvas(window.innerWidth <= 768 ? 390 : 640, window.innerWidth <= 768 ? 640 : 480);
+    createCanvas(captureWidth, captureHeight);
     
     initVideoCapture();
     loadCocoModel();
