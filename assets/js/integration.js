@@ -41,7 +41,6 @@ function loadCocoModel() {
 
         video.elt.addEventListener('loadeddata', () => {
             console.log("Video is ready. Starting detection...");
-            $('.menu-text').html(`w: ${video.width} h: ${video.height}`);
             detect();
         });
     });
@@ -97,7 +96,7 @@ function draw() {
         // Draw label
         fill(255);
         textSize(16);
-        text(`${className} (${(score * 100).toFixed(2)}%)`, x, y > 10 ? y - 5 : 10);
+        text(`${className} (${(score * 100).toFixed(2)}%) {w: ${video.width}, h: ${video.height}}`, x, y > 10 ? y - 5 : 10);
     });
 }
 
