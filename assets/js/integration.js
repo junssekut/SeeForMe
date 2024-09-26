@@ -1,5 +1,13 @@
 // const captureWidth = window.innerWidth <= 768 ? 390 : 640;
 // const captureHeight = window.innerWidth <= 768 ? 844 : 480;
+function fw() {
+    return windowWidth - 300;
+}
+
+function fh() {
+    return windowHeight - 300;
+}
+
 const captureWidth = 640;
 const captureHeight = 480;
 
@@ -15,7 +23,7 @@ let preds = {};
 function setup() {
     // createCanvas(captureWidth, captureHeight);
     // createCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
-    const canvas = createCanvas(windowWidth, windowHeight);
+    const canvas = createCanvas(fw(), fh());
     canvas.style('z-index', '-1');
     // canvas.position(0, 0);
     
@@ -145,5 +153,5 @@ function windowResized() {
     // Optional: Handle window resizing if needed
     // Update canvas size if needed based on new dimensions
     // resizeCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
-    resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(fw(), fh());
 }
