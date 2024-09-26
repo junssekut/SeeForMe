@@ -13,8 +13,8 @@ let commandDetected = false;
 let preds = {};
 
 function setup() {
-    // createCanvas(captureWidth, captureHeight);
-    createCanvas(800, 600);
+    createCanvas(captureWidth, captureHeight);
+    // createCanvas(800, 600);
     
     initVideoCapture();
     loadCocoModel();
@@ -30,7 +30,6 @@ function initVideoCapture() {
     };
 
     video = createCapture(constraints);
-    // video.size(captureWidth, captureHeight);
     video.hide();
 }
 
