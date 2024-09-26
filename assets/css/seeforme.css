@@ -15,10 +15,6 @@ body {
     overflow-y: hidden;
 }
 
-video {
-    display: none;
-}
-
 a {
     text-decoration: none;
 }
@@ -46,8 +42,8 @@ a {
 canvas {
     position: absolute;
 
-    height: 600px;
-    width: 800px;
+    /* height: 600px; */
+    /* width: 800px; */
 
     border-radius: 36px;
 

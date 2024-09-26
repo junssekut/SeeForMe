@@ -1,7 +1,5 @@
-// const captureWidth = window.innerWidth <= 768 ? 390 : 640;
-// const captureHeight = window.innerWidth <= 768 ? 844 : 480;
-const captureWidth = 640;
-const captureHeight = 480;
+const captureWidth = window.innerWidth <= 768 ? 390 : 640;
+const captureHeight = window.innerWidth <= 768 ? 844 : 480;
 
 let video;
 let model;
@@ -13,9 +11,7 @@ let commandDetected = false;
 let preds = {};
 
 function setup() {
-    // createCanvas(captureWidth, captureHeight);
-    createCanvas(window.innerWidth <= 768 ? 390 : 640, window.innerWidth <= 768 ? 640 : 480);
-    
+    createCanvas(captureWidth, captureHeight);
     initVideoCapture();
     loadCocoModel();
     setupSpeechRecognition();
@@ -73,20 +69,20 @@ function draw() {
     background(0); // Clear the background
     image(video, 0, 0, width, height); // Draw the video
 
-    // Calculate the scaling factor based on the original video size
-    const scaleX = width / captureWidth;  // Horizontal scaling factor
-    const scaleY = height / captureHeight; // Vertical scaling factor
+    // Calculate the scaling factor based on the video size and canvas size
+    const scaleX = width / video.width;  // Horizontal scaling factor
+    const scaleY = height / video.height; // Vertical scaling factor
 
     // Draw bounding boxes for detected objects
     detections.forEach(detection => {
         const { bbox, class: className, score } = detection;
-
+        
         // Scale the bounding box coordinates
         const x = bbox[0] * scaleX; // Top-left x
         const y = bbox[1] * scaleY; // Top-left y
         const w = bbox[2] * scaleX; // Width
         const h = bbox[3] * scaleY; // Height
-
+        
         // Draw the bounding box
         stroke(0, 255, 0);
         strokeWeight(2);
@@ -98,6 +94,22 @@ function draw() {
         textSize(16);
         text(`${className} (${(score * 100).toFixed(2)}%)`, x, y > 10 ? y - 5 : 10);
     });
+}
+
+
+function drawBoundingBox(detection, scaleX, scaleY) {
+    const { bbox, class: className, score } = detection;
+    stroke(0, 255, 0);
+    strokeWeight(2);
+    noFill();
+
+    // Scale bounding box coordinates
+    rect(bbox[0] * scaleX, bbox[1] * scaleY, bbox[2] * scaleX, bbox[3] * scaleY); // Draw bounding box
+
+    // Draw label
+    fill(255);
+    textSize(24);
+    text(`${className} (${(score * 100).toFixed(2)}%)`, bbox[0] * scaleX, bbox[1] * scaleY > 10 ? bbox[1] * scaleY - 5 : 10);
 }
 
 function setupSpeechRecognition() {
@@ -139,8 +151,11 @@ function speakDetectedCommands() {
     }
 }
 
+// Helper function for pluralization
+function pluralize(word, count) {
+    return count > 1 ? `${word}s` : word; // Simple pluralization
+}
+
 function windowResized() {
     // Optional: Handle window resizing if needed
-    // Update canvas size if needed based on new dimensions
-    resizeCanvas(window.innerWidth <= 768 ? 390 : 640, window.innerWidth <= 768 ? 640 : 480);
 }

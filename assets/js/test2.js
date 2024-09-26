@@ -1,56 +1,42 @@
 function drawBoundingBoxes(predictions, image) {
-    const imageWidth = image.cols; // Get the width of the image
     predictions.forEach((prediction) => {
-        const bbox = prediction.bbox;
-        const x = imageWidth - bbox[0] - bbox[2]; // Adjust x for mirrored image
-        const y = bbox[1];
-        const width = bbox[2];
-        const height = bbox[3];
-        const className = prediction.class;
-        const confScore = prediction.score;
-        const color = [0, 255, 0, 200];
-        let pnt1 = new cv.Point(x, y);
-        let pnt2 = new cv.Point(x + width, y + height);
-        cv.rectangle(image, pnt1, pnt2, color, 2);
-        const text = `${className} - ${Math.round(confScore * 100) / 100}`;
-        const font = cv.FONT_HERSHEY_TRIPLEX;
-        const fontsize = 0.70;
-        const thickness = 1;
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext("2d");
-        const textMetrics = context.measureText(text);
-        const twidth = textMetrics.width;
-        cv.rectangle(image, new cv.Point(x, y - 20), new cv.Point(x + twidth + 150, y), color, -1);
-        cv.putText(image, text, new cv.Point(x, y - 5), font, fontsize, new cv.Scalar(255, 255, 255, 255), thickness);
-    });
+        const bbox = prediction.bbox
+        const x = bbox[0]
+        const y = bbox[1]
+        const width = bbox[2]
+        const height = bbox[3]
+        const className = prediction.class
+        const confScore = prediction.score
+        const color = [0, 255, 0, 200]
+        let pnt1 = new cv.Point(x, y)
+        let pnt2 = new cv.Point(x + width, y + height)
+        cv.rectangle(image, pnt1, pnt2, color, 2)
+        const text = `${className} - ${Math.round(confScore * 100) / 100}`
+        const font = cv.FONT_HERSHEY_TRIPLEX
+        const fontsize = 0.70
+        const thickness = 1
+        const canvas = document.createElement('canvas')
+        const context = canvas.getContext("2d")
+        const textMetrics = context.measureText(text)
+        const twidth = textMetrics.width
+        cv.rectangle(image, new cv.Point(x, y-20), new cv.Point(x + twidth + 150, y), color, -1)
+        cv.putText(image, text, new cv.Point(x, y-5), font, fontsize, new cv.Scalar(255, 255, 255, 255), thickness)
+    })
 }
+
 
 function OpenCVReady(){
     cv["onRuntimeInitialized"] = () => {
         const video = document.querySelector("#webcam")
-        
-        if (IS_MOBILE) {
-            // video.width = window.innerWidth;
-            // video.height = window.innerHeight;
-
-            // video.width = '640';
-            // video.height = '480';
-
-            $('#main-canvas').css('width', `${video.width}px`).css('height', `${video.height}px`);
-        } else {
-            video.width = '640';
-            video.height = '480';
-        }
-
         let model = undefined
         let streaming = false
         let src
         let cap
-        const fps = 24
+        const fps = 60
 
         // const grammar = `#JSGF V1.0; grammar commands; public <command> = see for me`
-        const validCommands = ['see for me'];
-        const fuse = new Fuse(validCommands, { includeScore: true, threshold: 1.0 });
+        const validCommands = ['see for me', 'look for me', 'show me', 'see it for me'];
+        const fuse = new Fuse(validCommands, { includeScore: true, threshold: 0.4 });
 
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
         const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList
@@ -100,58 +86,15 @@ function OpenCVReady(){
             console.log("getUserMedia is not supported")
         }
         
-        // function enableCam() {
-        //     if (!model) {
-        //         return
-        //     }
-        //     navigator.mediaDevices.getUserMedia({'video' : true, 'audio' : false}).then((stream) => {
-        //         video.srcObject = stream
-        //         video.addEventListener('loadeddata', predictWebcam)
-        //     })
-        // }
-
         function enableCam() {
             if (!model) {
-                return;
+                return
             }
-        
-            const constraints = {
-                video: {
-                    facingMode: { ideal: "environment" },
-                    // width: { ideal: 640 },
-                    // height: { ideal: 480 }
-                },
-                audio: false
-            };
-        
-            navigator.mediaDevices.getUserMedia(constraints)
-            .then((stream) => {
-                video.srcObject = stream;
-                
-                video.addEventListener('loadedmetadata', () => {
-                    const videoWidth = video.videoWidth;
-                    const videoHeight = video.videoHeight;
-
-                    console.log("Current Webcam Resolution:", videoWidth, "x", videoHeight);
-
-                    video.width = videoWidth;
-                    video.height = video.height;
-
-                    $('#main-canvas').css('width', `${videoWidth}px`).css('height', `${videoHeight}px`);
-                    
-                    predictWebcam(videoWidth, videoHeight);
-                });
-
-                video.addEventListener('error', (e) => {
-                    console.error("Error with the video element: ", e);
-                });
+            navigator.mediaDevices.getUserMedia({'video' : true, 'audio' : false}).then((stream) => {
+                video.srcObject = stream
+                video.addEventListener('loadeddata', predictWebcam)
             })
-            .catch((error) => {
-                console.error("Error accessing the camera: ", error.name, error.message);
-            });
         }
-        
-        
 
         setTimeout(() => {
             cocoSsd.load().then((loadedModel) => {
@@ -165,18 +108,15 @@ function OpenCVReady(){
 
         let preds = {}
 
-        function predictWebcam(videoWidth, videoHeight) {
-            if (videoWidth > 0 && videoHeight > 0) {
+        function predictWebcam() {
+            if (video.videoWidth > 0 && video.videoHeight > 0) {
                 
                 const begin = Date.now()
-                src = new cv.Mat(videoHeight, videoWidth, cv.CV_8UC4)
-                
+                src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4)
                 cap = new cv.VideoCapture(video)
                 cap.read(src)
 
-                cv.flip(src, src, 1);
-
-                model.detect(src).then((predictions) => {
+                model.detect(video).then((predictions) => {
                     preds = {}
                     predictions.forEach((prediction) => {
                         if (!(prediction['class'] in preds)) {
