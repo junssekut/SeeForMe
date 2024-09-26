@@ -14,7 +14,7 @@ let preds = {};
 
 function setup() {
     // createCanvas(captureWidth, captureHeight);
-    createCanvas(captureWidth, captureHeight);
+    createCanvas(800, 600);
     
     initVideoCapture();
     loadCocoModel();
@@ -73,8 +73,6 @@ function draw() {
     background(0); // Clear the background
     image(video, 0, 0, width, height); // Draw the video
 
-    text(`{w: ${video.width}, h: ${video.height}}`, 100, 100);
-
     // Calculate the scaling factor based on the original video size
     const scaleX = width / captureWidth;  // Horizontal scaling factor
     const scaleY = height / captureHeight; // Vertical scaling factor
@@ -98,7 +96,7 @@ function draw() {
         // Draw label
         fill(255);
         textSize(16);
-        text(`${className} (${(score * 100).toFixed(2)}%) {w: ${video.width}, h: ${video.height}}`, x, y > 10 ? y - 5 : 10);
+        text(`${className} (${(score * 100).toFixed(2)}%)`, x, y > 10 ? y - 5 : 10);
     });
 }
 
