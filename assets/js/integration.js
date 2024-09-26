@@ -13,8 +13,8 @@ let commandDetected = false;
 let preds = {};
 
 function setup() {
-    createCanvas(captureWidth, captureHeight);
-    // createCanvas(800, 600);
+    // createCanvas(captureWidth, captureHeight);
+    createCanvas(800, 600);
     
     initVideoCapture();
     loadCocoModel();
@@ -141,5 +141,5 @@ function speakDetectedCommands() {
 function windowResized() {
     // Optional: Handle window resizing if needed
     // Update canvas size if needed based on new dimensions
-    resizeCanvas(window.innerWidth <= 768 ? 390 : 640, window.innerWidth <= 768 ? 540 : 480);
+    resizeCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
 }
