@@ -14,7 +14,10 @@ let preds = {};
 
 function setup() {
     // createCanvas(captureWidth, captureHeight);
-    createCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
+    // createCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
+    const canvas = createCanvas(windowWidth, windowHeight);
+    canvas.style('z-index', '-1');
+    // canvas.position(0, 0);
     
     initVideoCapture();
     loadCocoModel();
@@ -141,5 +144,6 @@ function speakDetectedCommands() {
 function windowResized() {
     // Optional: Handle window resizing if needed
     // Update canvas size if needed based on new dimensions
-    resizeCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
+    // resizeCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
+    resizeCanvas(windowWidth, windowHeight);
 }

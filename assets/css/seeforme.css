@@ -64,6 +64,8 @@ canvas {
     -webkit-backdrop-filter: blur( 12.5px );
     border-radius: 30px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
+
+    z-index: -2;
 }
 
 .floating-top, .floating-bottom {
