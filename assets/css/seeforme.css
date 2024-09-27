@@ -26,6 +26,15 @@ a {
     text-decoration: none;
 }
 
+#enablewebcam {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#enablewebcam:hover {
+    transform: scale(1.1);
+}
+
 .container {
     display: flex;
     flex-direction: column;

@@ -1,11 +1,11 @@
 // const captureWidth = window.innerWidth <= 768 ? 390 : 640;
 // const captureHeight = window.innerWidth <= 768 ? 844 : 480;
 function fw() {
-    return windowWidth - 300;
+    return windowWidth - (window.innerWidth <= 768 ? 50 : 300);
 }
 
 function fh() {
-    return windowHeight - 300;
+    return windowHeight - (window.innerWidth <= 768 ? 50 : 300);
 }
 
 const captureWidth = 640;
@@ -155,3 +155,7 @@ function windowResized() {
     // resizeCanvas(window.innerWidth <= 768 ? 290 : 640, window.innerWidth <= 768 ? 540 : 480);
     resizeCanvas(fw(), fh());
 }
+
+$(document).ready(() => {
+    $('#enablewebcam').on('click', speakDetectedCommands());
+});
