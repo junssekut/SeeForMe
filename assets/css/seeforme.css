@@ -26,13 +26,14 @@ a {
     text-decoration: none;
 }
 
-#enablewebcam {
+#enablewebcam, .menu, .menu-logo {
     cursor: pointer;
     transition: all 0.3s;
+    rotate: 0deg;
 }
 
-#enablewebcam:hover {
-    transform: scale(1.1);
+.menu-logo:hover {
+    rotate: 45deg;
 }
 
 .container {
@@ -74,7 +75,7 @@ canvas {
     border-radius: 30px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 
-    z-index: -2;
+    z-index: -1;
 }
 
 .floating-top, .floating-bottom {

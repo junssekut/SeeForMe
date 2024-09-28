@@ -5,7 +5,7 @@ function fw() {
 }
 
 function fh() {
-    return windowHeight - (window.innerWidth <= 768 ? 50 : 300);
+    return windowHeight - (window.innerWidth <= 768 ? 50 : 200);
 }
 
 const captureWidth = 640;
@@ -157,5 +157,5 @@ function windowResized() {
 }
 
 $(document).ready(() => {
-    $('#enablewebcam').on('click', speakDetectedCommands());
+    $('.menu-logo').on('click', speakDetectedCommands);
 });

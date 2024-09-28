@@ -53,14 +53,20 @@ function init() {
         `);
 
         speakText(`
-            ${IS_MOBILE ? `Welcome to See for Me! Swipe left or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you.` :
-                `Welcome to See for Me! Press the space key or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you.`
+            ${IS_MOBILE ? `Welcome to See for Me! Swipe left or click the scanner icon to open the camera.` :
+                `Welcome to See for Me! Press the space key or click the scanner icon to open the camera.`
             }    
         `)
     } else {
         sendNotification(`
             Voice activate with 'See For Me'!
         `);
+
+        speakText(`
+            ${IS_MOBILE ? `When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you.` :
+                `When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you.`
+            }    
+        `)
     }
 
 // Mobile: "Welcome to See for Me! Swipe left or click the scanner icon to open the camera. When you're ready, just say, 'See for me,' and I'll guide you by describing the objects around you."
