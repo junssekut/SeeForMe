@@ -29,11 +29,6 @@ a {
 #enablewebcam, .menu, .menu-logo {
     cursor: pointer;
     transition: all 0.3s;
-    rotate: 0deg;
-}
-
-.menu-logo:hover {
-    rotate: 45deg;
 }
 
 .container {

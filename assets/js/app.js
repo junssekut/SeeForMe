@@ -99,10 +99,10 @@ function init() {
         $(document).on('touchend', function(event) {
             touchEndX = event.changedTouches[0].screenX;
 
-            // if (touchEndX < touchStartX - 50 && IS_MAIN_PAGE) window.location.href = 'seeforme.html'; 
-            // if (touchEndX > touchStartX + 50 && !IS_MAIN_PAGE) window.location.href = 'index.html';
+            if (touchEndX < touchStartX - 50 && IS_MAIN_PAGE) window.location.href = 'seeforme.html'; 
+            if (touchEndX > touchStartX + 50 && !IS_MAIN_PAGE) window.location.href = 'index.html';
             
-            // vibrateDevice();
+            vibrateDevice();
         });
     }
 
