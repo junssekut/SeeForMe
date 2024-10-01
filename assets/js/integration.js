@@ -158,4 +158,10 @@ function windowResized() {
 
 $(document).ready(() => {
     $('.menu-logo').on('click', speakDetectedCommands);
+
+    $(document).keydown(function(event) {
+        if (event.key === "Z") {
+            speakDetectedCommands();
+        }
+    });
 });
